@@ -98,11 +98,17 @@
             font-size: 14px;
         }
 
-        .error-message {
-            color: #BE185D;
+        .alert-error {
+            background-color: #FFF1F3;
+            color: #D6336C;
+            border: 1px solid #FCA5A5;
+            padding: 10px;
+            border-radius: 8px;
             margin-bottom: 12px;
+            text-align: left;
             font-size: 14px;
         }
+
 
         .success-message {
             color: #2e8b57;
@@ -141,7 +147,9 @@
     <h2>Log In</h2>
 
     @if(session('error'))
-        <p class="error-message">{{ session('error') }}</p>
+        <div class="alert-error">
+            {{ session('error') }}
+        </div>
     @endif
 
     @if(session('success'))
