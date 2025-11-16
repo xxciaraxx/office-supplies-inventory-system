@@ -11,8 +11,8 @@
         body {
             margin: 0;
             font-family: 'Nunito', Arial, sans-serif;
-            background-color: #FFF5F7; /* Soft blush */
-            color: #4B4B4B; /* Charcoal Gray */
+            background-color: #FFF5F7; 
+            color: #4B4B4B;
         }
 
         header {
@@ -38,7 +38,7 @@
 
         header h1 img {
             height: 40px;
-            margin-right: 10px; /* Logo spacing */
+            margin-right: 10px; 
         }
 
         nav a {
@@ -50,11 +50,11 @@
         }
 
         nav a:hover {
-            color: #FCA5A5; /* Soft pink hover */
+            color: #FCA5A5; 
         }
 
         nav form button {
-            background: #FCA5A5; /* Soft Pink */
+            background: #FCA5A5; 
             color: white;
             border: none;
             padding: 0.4rem 0.8rem;
@@ -65,7 +65,7 @@
         }
 
         nav form button:hover {
-            background: #D6336C; /* Deep Rose */
+            background: #D6336C; 
         }
 
         main {
@@ -100,7 +100,7 @@
 
         footer {
             margin-top: auto;
-            background: #FCA5A5; /* Soft blush */
+            background: #FCA5A5;
             padding: 15px 0;
             text-align: center;
             font-size: 14px;
@@ -111,6 +111,94 @@
         }
 
         footer a { color: white; }
+
+        @media (max-width: 900px) {
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.2rem;
+            }
+
+            header h1 {
+                font-size: 22px !important;
+                margin-bottom: 0.5rem;
+                justify-content: center;
+                text-align: center;
+            }
+
+            header h1 img {
+                width: 60px !important;
+                height: 60px !important;
+            }
+
+            nav {
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+                margin-top: 0.5rem;
+            }
+
+            nav a {
+                margin-right: 0 !important;
+                font-size: 16px !important;
+            }
+
+            nav form {
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+
+            nav form button {
+                width: 100%;
+            }
+
+            .flash-message {
+                text-align: center;
+                font-size: 14px;
+            }
+
+            main {
+                padding: 1rem !important;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                width: 100%;
+            }
+
+            table th, table td {
+                font-size: 14px !important;
+                padding: 8px !important;
+            }
+
+            input, button {
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+        }
+
+        @media (max-width: 500px) {
+            header h1 {
+                font-size: 20px !important;
+            }
+
+            table th, table td {
+                font-size: 12px !important;
+            }
+
+            nav a {
+                font-size: 14px !important;
+            }
+
+            .flash-message {
+                font-size: 13px !important;
+            }
+        }
+
     </style>
 
     @livewireStyles
