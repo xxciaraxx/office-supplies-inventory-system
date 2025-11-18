@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layout.layout>
     <h2 style="color:#D6336C; font-size:28px; margin-bottom:1rem; font-family:'Playfair Display', serif;">Dashboard</h2>
 
     @php
@@ -85,4 +85,4 @@
             }
         });
     </script>
-</x-layouts.app>
+</x-layout.layout>

@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('category');
             $table->integer('quantity')->default(0);
             $table->integer('reorder_level')->default(5);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -7,17 +7,20 @@ use App\Models\OfficeSupply;
 
 class OfficeSupplies extends Component
 {
-    // Specify the layout for Livewire
-    protected string $layout = 'components.layouts.app'; // ✅ Add this line here
-
     public $supplies;
+    public $archivedSupplies; // ✅ Add this
     public $name, $category, $quantity, $reorder_level, $supply_id;
-    public $updateMode = false; // already initialized
+    public $updateMode = false; 
+
+    public $showArchive = false; // ✅ Add this
 
     public function render()
     {
         $this->supplies = OfficeSupply::all();
-        return view('livewire.office-supplies');
+        $this->archivedSupplies = OfficeSupply::onlyTrashed()->get(); // ✅ Fetch archived items
+
+        return view('livewire.office-supplies')
+            ->layout('components.layout.layout');
     }
 
     private function resetInputFields(){
@@ -73,7 +76,27 @@ class OfficeSupplies extends Component
 
     public function delete($id)
     {
-        OfficeSupply::find($id)->delete();
-        session()->flash('message', 'Office Supply Deleted Successfully.');
+        OfficeSupply::find($id)->delete(); // ✅ Soft delete
+        session()->flash('message', 'Office Supply Archived Successfully.');
+    }
+
+    // ✅ Archive toggle
+    public function toggleArchive()
+    {
+        $this->showArchive = !$this->showArchive;
+    }
+
+    // ✅ Restore archived item
+    public function restore($id)
+    {
+        OfficeSupply::withTrashed()->find($id)->restore();
+        session()->flash('message', 'Office Supply Restored Successfully.');
+    }
+
+    // ✅ Permanently delete
+    public function forceDelete($id)
+    {
+        OfficeSupply::withTrashed()->find($id)->forceDelete();
+        session()->flash('message', 'Office Supply Deleted Permanently.');
     }
 }

@@ -50,44 +50,97 @@
                     </td>
                     <td style="padding:10px; border:1px solid #E5E7EB;">
                         <button wire:click="edit({{ $supply->id }})" style="background:#6B7280; color:white; padding:5px 10px; margin-right:5px;">Edit</button>
-                        <button wire:click="delete({{ $supply->id }})" style="background:#D6336C; color:white; padding:5px 10px;">Delete</button>
+                        <button wire:click="delete({{ $supply->id }})" style="background:#D6336C; color:white; padding:5px 10px;">Archive</button>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-    <!-- Print Report -->
-    <button onclick="window.print()" style="margin-top:20px; background:#D6336C; color:white; padding:10px 20px; border-radius:6px;">Print Report</button>
-</div>
+    <!-- Toggle Archive -->
+    <button wire:click="toggleArchive"
+        style="background:#6B7280; color:white; padding:10px 20px; border-radius:6px; margin-bottom:15px;">
+        {{ $showArchive ? 'Hide Archive' : 'Show Archive' }}
+    </button>
+    
+    <!-- Low Stock Alert JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('#inventory-table .supply-row');
+            rows.forEach(row => {
+                const quantity = parseInt(row.dataset.quantity);
+                const reorder = parseInt(row.dataset.reorder);
+                const name = row.dataset.name;
 
-<!-- Inline JS for reorder alerts -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const rows = document.querySelectorAll('#inventory-table .supply-row');
-        rows.forEach(row => {
-            const quantity = parseInt(row.dataset.quantity);
-            const reorder = parseInt(row.dataset.reorder);
-            const name = row.dataset.name;
+                if (quantity <= reorder) {
+                    row.style.transition = 'background 1s';
+                    row.style.animation = 'pulse 2s infinite alternate';
 
-            if (quantity <= reorder) {
-                row.style.transition = 'background 1s';
-                row.style.animation = 'pulse 2s infinite alternate';
+                    setTimeout(() => {
+                        alert(`⚠️ Low Stock Alert: ${name} (Quantity: ${quantity})`);
+                    }, 100);
+                }
+            });
+        });
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes pulse {
+                0% { background-color: #ec5da0ff; }
+                50% { background-color: #FFF5F7; }
+                100% { background-color: #fa6565ff; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <!-- ARCHIVE TABLE -->
+    @if($showArchive)
+        <h3 style="margin-top:30px; color:#6B7280;">Archived Items</h3>
+        <table id="archive-table" style="width:100%; margin-top:10px; border-collapse:collapse; background:#FEF2F2; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+            <thead style="background:#9CA3AF; color:white;">
+                <tr>
+                    <th style="padding:10px; border:1px solid #D1D5DB;">Name</th>
+                    <th style="padding:10px; border:1px solid #D1D5DB;">Category</th>
+                    <th style="padding:10px; border:1px solid #D1D5DB;">Quantity</th>
+                    <th style="padding:10px; border:1px solid #D1D5DB;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($archivedSupplies as $item)
+                    <tr id="archived-item-{{ $item->id }}">
+                        <td style="padding:10px; border:1px solid #D1D5DB;">{{ $item->name }}</td>
+                        <td style="padding:10px; border:1px solid #D1D5DB;">{{ $item->category }}</td>
+                        <td style="padding:10px; border:1px solid #D1D5DB;">{{ $item->quantity }}</td>
+                        <td style="padding:10px; border:1px solid #D1D5DB;">
+                            <button wire:click="restore({{ $item->id }})" onclick="flashRow('archived-item-{{ $item->id }}', 'green')"
+                                style="background:#10B981; color:white; padding:5px 10px; margin-right:5px;">
+                                Restore
+                            </button>
+                            <button wire:click="forceDelete({{ $item->id }})" onclick="flashRow('archived-item-{{ $item->id }}', 'red')"
+                                style="background:#B91C1C; color:white; padding:5px 10px;">
+                                Delete Permanently
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <script>
+            // Function to flash a table row green or red
+            function flashRow(rowId, color) {
+                const row = document.getElementById(rowId);
+                if (!row) return;
+
+                row.style.transition = 'background 0.5s';
+                row.style.backgroundColor = color === 'green' ? '#10B981aa' : '#B91C1Caa';
 
                 setTimeout(() => {
-                    alert(`⚠️ Low Stock Alert: ${name} (Quantity: ${quantity})`);
-                }, 100);
+                    row.style.backgroundColor = '';
+                }, 1000);
             }
-        });
-    });
+        </script>
+    @endif
 
-    const style = document.createElement('style');
-    style.innerHTML = `
-        @keyframes pulse {
-            0% { background-color: #ec5da0ff; }
-            50% { background-color: #FFF5F7; }
-            100% { background-color: #fa6565ff; }
-        }
-    `;
-    document.head.appendChild(style);
-</script>
+</div>
