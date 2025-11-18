@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Office Supplies Inventory</title>
+    <link rel="favicon" href="{{ asset('favicon.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/png">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
 

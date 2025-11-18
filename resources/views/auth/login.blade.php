@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Login | Office Supplies Inventory System</title>
+    <link rel="favicon" href="{{ asset('favicon.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/png">
+
     <style>
         /* ---------- Global Styles ---------- */
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
